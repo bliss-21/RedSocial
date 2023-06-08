@@ -1,0 +1,32 @@
+# Ignorar archivos y directorios generados por Django
+*.pyc
+__pycache__/
+*.sqlite3
+
+# Ignorar el archivo de configuración local
+settings_local.py
+
+# Ignorar directorio de archivos estáticos recopilados
+staticfiles/
+
+# Ignorar directorio de archivos de medios cargados
+media/
+
+# Ignorar archivos y directorios de entorno virtual
+venv/
+env/
+
+# Ignorar archivo de registro de errores
+.log
+
+# Ignorar archivos y directorios generados por el IDE o editor de texto
+.idea/
+.vscode/
+*.swp
+
+# Ignorar archivos y directorios específicos
+archivo_personal.txt
+directorio_secreto/
+
+# otros
+commands.txt
