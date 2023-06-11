@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     # propias
     'apps.core',
-    'apps.user'
+    'apps.user',
+    'apps.publication',
 ]
 
 MIDDLEWARE = [
