@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Nueva Publicacion{% endblock %}
+
+{% block content %}
+    <h4>Publica algo nuevo!</h4> 
+    <div class="container">
+        <div class="row mt-5">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+              
+                <label for="media">Media:</label>
+                <input type="file" name="media" required>
+              
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
