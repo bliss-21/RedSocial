@@ -3,7 +3,8 @@ from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 
-from .models import Publication, User, validate_file_size_limit_5mb, generate_permalink
+from .util import validate_file_size_limit_5mb, generate_permalink, validate_file_extension
+from .models import Publication, User
 
 # Models #
 class PublicationModelTestCase(TestCase):
@@ -17,7 +18,7 @@ class PublicationModelTestCase(TestCase):
         value = SimpleUploadedFile('large_file.jpg', large_content, content_type='image/jpeg')
         with self.assertRaises(ValidationError):
             validate_file_size_limit_5mb(value)
-
+    
     def test_generate_permalink(self):
         # Prueba la generación del permalink
         permalink = generate_permalink()
@@ -35,6 +36,24 @@ class PublicationModelTestCase(TestCase):
         
         # Limpiar los datos de prueba
         publication.media.delete()
+
+    def test_media_allowed_extensions(self):
+        # Crea una instancia de la publicación
+        publication = Publication()
+
+        # Crea un archivo de imagen con una extensión permitida
+        image_file = SimpleUploadedFile(name='test_image.jpg', content_type='image/jpeg', content=b'')
+        publication.media = image_file
+
+        # Verifica si la extensión del archivo es válida
+        self.assertTrue(publication.media.name.endswith('.jpg') or publication.media.name.endswith('.jpeg') or publication.media.name.endswith('.png'))
+
+        # Crea un archivo de imagen con una extensión no permitida
+        invalid_file = SimpleUploadedFile(name='test_image.txt', content_type='text/plain', content=b'')
+        publication.media = invalid_file
+
+        # Verifica si la extensión del archivo no es válida
+        self.assertFalse(publication.media.name.endswith('.jpg') or publication.media.name.endswith('.jpeg') or publication.media.name.endswith('.png'))
 
     def test_publication_url(self):
         # Prueba que la URL generada tenga el formato esperado
@@ -66,6 +85,16 @@ class UtilsFileTestCase(TestCase):
         permalink = generate_permalink()
         self.assertIsNotNone(permalink)
         self.assertIsInstance(permalink, str)
+
+    def test_validate_file_extension(self):
+        # Prueba cuando la extensión del archivo es permitida
+        value = SimpleUploadedFile('file.jpg', b'file_content', content_type='image/jpeg')
+        self.assertIsNone(validate_file_extension(value))
+
+        # Prueba cuando la extensión del archivo no es permitida
+        value = SimpleUploadedFile('file.txt', b'file_content', content_type='text/plain')
+        with self.assertRaises(ValidationError):
+            validate_file_extension(value)
 # ...
 
 # Views #
