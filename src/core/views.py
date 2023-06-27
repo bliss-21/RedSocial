@@ -12,7 +12,13 @@ def home(request):
     return render(request, 'core/home.html', data)
 
 def feed(request):
-    return render(request, 'core/feed.html')
+    my_posts = Publication.objects.all()
+
+    data = {
+        'my_posts': my_posts,
+    }
+    
+    return render(request, 'core/feed.html', data)
 
 def me(request):
     
