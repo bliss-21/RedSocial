@@ -5,8 +5,15 @@
 {% block content %}
     <h4>Tu Feed</h4>
     <div class="container">
-        <div class="row mt-5">
-            
+        <div class="row mt-5 col-12">
+            <p>Mis Publicacion</p>
+            {% for post in my_posts %}
+                {% include 'components/feed_publication.html' %}
+            {% empty %}
+                <h3>Aun no Publicas Nada</h3>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
+
+    
