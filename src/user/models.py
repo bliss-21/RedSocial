@@ -5,6 +5,9 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
 
     email = models.EmailField(unique=True)#sobreescrito
+    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    presentation = models.CharField(max_length=150, blank=True, null=True)
+
 
     #web_site = models.CharField(max_length=255, blank=True)
     #twitter = models.CharField(max_length=255, blank=True)

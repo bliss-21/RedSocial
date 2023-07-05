@@ -1,7 +1,9 @@
-from django.db.models.signals import post_migrate
+# user/signals.py
+from django.db.models.signals import post_migrate, pre_delete
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 from django.conf import settings
+
 
 @receiver(post_migrate)
 def create_admin_user(sender, app_config, **kwargs):
@@ -37,3 +39,9 @@ def create_users_testing(sender,app_config, **kwargs):
 #             follower = User.objects.create(username='follower')
 #             following = User.objects.create(username='following')
 #             Follow.objects.create(follower=follower, following=following)
+
+
+# @receiver(pre_delete, sender=get_user_model)
+# def delete_profile_image_file(sender, instance, **kwargs):
+#     # Eliminar el archivo de medios asociado
+#     instance.profile_image.delete()
